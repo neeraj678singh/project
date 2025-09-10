@@ -1,1 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Kalam:wght@700&family=Outfit:wght@100..900&family=Signika:wght@300..700&display=swap');
+
 @import "tailwindcss";
+
+*{
+    font-family: 'outfit', sans-serif;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
