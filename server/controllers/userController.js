@@ -1,7 +1,7 @@
-import User from "../models/User";
-import { generateToken } from "../lib/utils";
+import User from "../models/User.js";
+import { generateToken } from "../lib/utils.js";
 import bcrypt from "bcryptjs";
-import cloudinary from "../lib/cloudinary";
+import cloudinary from "../lib/cloudinary.js";
 
 // controller to sign up a user
 export const signup = async (req, res)=>{
