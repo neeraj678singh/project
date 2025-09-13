@@ -43,7 +43,7 @@ export const ChatProvider = ({children}) => {
     // function to send message to selected user
     const sendMessage = async (messagesData)=>{
         try{
-            const {data} = await axios.post(`/api/messages/send/${selectedUser._id}, messageData`);
+            const {data} = await axios.post(`/api/messages/send/${selectedUser._id}`, messagesData);
             if(data.success){
                 setMessages((prevMessages)=>[...prevMessages, data.newMessage])
             }else{
@@ -83,7 +83,7 @@ export const ChatProvider = ({children}) => {
     }, [socket, selectedUser]);
 
     const value = {
-        messages, users, selectedUser, getUsers, setMessages, sendMessage, setSelectedUser, unseenMessages, setUnseenMessages
+        messages, users, selectedUser, getUsers, getMessages, sendMessage, setSelectedUser, unseenMessages, setUnseenMessages
     };
 
     return (
