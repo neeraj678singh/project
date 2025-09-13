@@ -46,6 +46,7 @@ const Sidebar = () => {
 
             </div>
 
+
             <div className='flex flex-col'>
                 {filteredUsers.map((user, index) => (
                     <div onClick={() => { setSelectedUser(user) }}
