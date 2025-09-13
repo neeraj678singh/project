@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 // middleware to protect routes
 export const protectRoute = async (req, res, next)=>{
     try{
-        const token = req.res.headers.token;
+        const token = req.headers.token;
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

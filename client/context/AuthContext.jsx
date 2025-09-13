@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {io} from "socket.io-client"
+import { useNavigate } from "react-router-dom";
+// import { set } from "mongoose";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.baseURL = backendUrl;
@@ -34,10 +36,10 @@ export const AuthProvider = ({ children })=>{
 // Login function to handle user authentication and Socket connection
     const login = async (state, credentials)=>{
         try{
-            const {data} = await axios.post('/api/auth/${sta1te}', credentials);
+            const {data} = await axios.post(`/api/auth/${state}`, credentials);
             if(data.success){
-                setAuthUser(data.user);
-                connectSocket(data.user);
+                setAuthUser(data.userData);
+                connectSocket(data.userData);
                 axios.defaults.headers.common["token"] = data.token;
                 setToken(data.token);
                 localStorage.setItem("token", data.token);
@@ -56,9 +58,13 @@ export const AuthProvider = ({ children })=>{
         setToken(null);
         setAuthUser(null);
         setOnlineUsers([]);
-        axios.defaults.headers.common["token"] = null;
+        delete axios.defaults.headers.common["token"];
         toast.success("Logged out successfully");
-        socket.disconnect();
+        if(socket){
+            socket.disconnect();
+            setSocket(null);
+        }
+        navigate("/login");
     }
 
     // Update profile function to handle user profile updates
@@ -66,7 +72,7 @@ export const AuthProvider = ({ children })=>{
         try{
             const {data} = await axios.put("/api/auth/update-profile", body);
             if(data.success){
-                setAuthUser(data.user);
+                setAuthUser(data.userData);
                 toast.success("Profile updated successfully");
             }
         }catch(error){
@@ -95,9 +101,13 @@ export const AuthProvider = ({ children })=>{
     useEffect(()=>{
         if(token){
             axios.defaults.headers.common["token"] = token;
+            checkAuth();
+        } else {
+        // if no token, ensure authUser is null
+        setAuthUser(null);
+        delete axios.defaults.headers.common["token"];
         }
-        checkAuth();
-    },[])
+    },[token])
 
 
     const value = {
