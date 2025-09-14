@@ -82,6 +82,8 @@ export const ChatProvider = ({children}) => {
         return ()=> unsubscribeFromMessages();
     }, [socket, selectedUser]);
 
+    
+
     const value = {
         messages, users, selectedUser, getUsers, getMessages, sendMessage, setSelectedUser, unseenMessages, setUnseenMessages
     };
